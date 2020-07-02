@@ -17,7 +17,7 @@ namespace OpcUaFxClient
         {
             var client = new OpcClient("opc.tcp://127.0.0.1:49320");
             client.Security.UserIdentity = new OpcClientIdentity("Tim", "1qaz2wsx3edc4rfv");
-
+            client.Security.EndpointPolicy = new OpcSecurityPolicy( OpcSecurityMode.SignAndEncrypt, OpcSecurityAlgorithm.Basic256);
             client.Connect();
 
 
