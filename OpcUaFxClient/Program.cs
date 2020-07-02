@@ -1,5 +1,7 @@
 ﻿using System;
 using Opc.UaFx.Client;
+using Opc.UaFx;
+using System.Collections.Generic;
 
 namespace OpcUaFxClient
 {
@@ -8,9 +10,8 @@ namespace OpcUaFxClient
         private static void HandleDataChanged(object sender,OpcDataChangeReceivedEventArgs e)
         {
             OpcMonitoredItem item = (OpcMonitoredItem)sender;
-            Console.WriteLine( "Data Change from NodeId '{0}': {1}",item.NodeId,e.Item.Value);
+            Console.WriteLine("DataChange: {0} = {1}", item.NodeId,e.Item.Value);
         }
-
 
         static void Main(string[] args)
         {
@@ -20,29 +21,29 @@ namespace OpcUaFxClient
             client.Connect();
 
 
-            // 布林Tag 讀寫
-            client.WriteNode("ns=2;s=Channel2.Device1.Tag1", false);
-            Console.WriteLine("ReadNode: {0}", client.ReadNode("ns=2;s=Channel2.Device1.Tag1"));
-            client.WriteNode("ns=2;s=Channel2.Device1.Tag1", true);
-            Console.WriteLine("ReadNode: {0}", client.ReadNode("ns=2;s=Channel2.Device1.Tag1"));
+            // 一次寫取多個Tag
+            OpcWriteNode[] wCommands = new OpcWriteNode[] {
+                new OpcWriteNode("ns=2;s=Channel2.Device1.Tag1", false),    // 寫 boolean
+                new OpcWriteNode("ns=2;s=Channel2.Device1.Tag2", "Test"),   // 寫 sting
+                new OpcWriteNode("ns=2;s=Channel2.Device1.Tag3", 8.7),      // 寫 float
+                new OpcWriteNode("ns=2;s=Channel2.Device1.Tag3", (ushort)88)// 寫 word
+            };
+            OpcStatusCollection results = client.WriteNodes(wCommands);
 
-            // 字串Tag 讀寫
-            client.WriteNode("ns=2;s=Channel2.Device1.Tag2", "Test");
-            Console.WriteLine("ReadNode: {0}", client.ReadNode("ns=2;s=Channel2.Device1.Tag2"));
-            client.WriteNode("ns=2;s=Channel2.Device1.Tag2", "Test...");
-            Console.WriteLine("ReadNode: {0}", client.ReadNode("ns=2;s=Channel2.Device1.Tag2"));
-
-            // float Tag 讀寫
-            client.WriteNode("ns=2;s=Channel2.Device1.Tag3", 8.7);
-            Console.WriteLine("ReadNode: {0}", client.ReadNode("ns=2;s=Channel2.Device1.Tag3"));
-            client.WriteNode("ns=2;s=Channel2.Device1.Tag3", 9.2);
-            Console.WriteLine("ReadNode: {0}", client.ReadNode("ns=2;s=Channel2.Device1.Tag3"));
-
-            // word Tag 讀寫
-            client.WriteNode("ns=2;s=Channel2.Device1.Tag4", (ushort)88);
-            Console.WriteLine("ReadNode: {0}", client.ReadNode("ns=2;s=Channel2.Device1.Tag4"));
-            client.WriteNode("ns=2;s=Channel2.Device1.Tag4", (ushort)33);
-            Console.WriteLine("ReadNode: {0}", client.ReadNode("ns=2;s=Channel2.Device1.Tag4"));
+            // 一次讀取多個Tag
+            OpcReadNode[] rCommands = new OpcReadNode[] {
+                new OpcReadNode("ns=2;s=Channel2.Device1.Tag1"),
+                new OpcReadNode("ns=2;s=Channel2.Device1.Tag2"),
+                new OpcReadNode("ns=2;s=Channel2.Device1.Tag3"),
+                new OpcReadNode("ns=2;s=Channel2.Device1.Tag4")
+            };
+            IEnumerable<OpcValue> job = client.ReadNodes(rCommands);
+            int i = 0;
+            foreach(OpcValue value in job)
+            {
+                Console.WriteLine("ReadNode: {0},\t = {1}", rCommands[i].NodeId, value);
+                i++;
+            }
 
 
             // 訂閱Tag5
