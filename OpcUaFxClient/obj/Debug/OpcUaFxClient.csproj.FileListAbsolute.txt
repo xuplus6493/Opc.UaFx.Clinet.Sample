@@ -1,0 +1,10 @@
+C:\Users\tim\Desktop\OpcUaFxClient\OpcUaFxClient\bin\Debug\OpcUaFxClient.exe.config
+C:\Users\tim\Desktop\OpcUaFxClient\OpcUaFxClient\obj\Debug\OpcUaFxClient.csprojResolveAssemblyReference.cache
+C:\Users\tim\Desktop\OpcUaFxClient\OpcUaFxClient\bin\Debug\OpcUaFxClient.exe
+C:\Users\tim\Desktop\OpcUaFxClient\OpcUaFxClient\bin\Debug\OpcUaFxClient.pdb
+C:\Users\tim\Desktop\OpcUaFxClient\OpcUaFxClient\bin\Debug\Opc.UaFx.Advanced.dll
+C:\Users\tim\Desktop\OpcUaFxClient\OpcUaFxClient\bin\Debug\BouncyCastle.Crypto.dll
+C:\Users\tim\Desktop\OpcUaFxClient\OpcUaFxClient\bin\Debug\Newtonsoft.Json.dll
+C:\Users\tim\Desktop\OpcUaFxClient\OpcUaFxClient\bin\Debug\Opc.UaFx.Advanced.xml
+C:\Users\tim\Desktop\OpcUaFxClient\OpcUaFxClient\obj\Debug\OpcUaFxClient.exe
+C:\Users\tim\Desktop\OpcUaFxClient\OpcUaFxClient\obj\Debug\OpcUaFxClient.pdb
